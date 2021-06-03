@@ -37,7 +37,9 @@ router.post('/login', async (req: Request, res: Response) => {
         .json({ success: false, message: 'These credentials do not match' });
     }
 
-    const token = jwt.sign({ ...user }, process.env.TOKEN_SECRET as string);
+    const token = jwt.sign({ ...user }, process.env.TOKEN_SECRET as string, {
+      expiresIn: '7d',
+    });
 
     return res.status(200).json({ success: true, user, token });
   } catch (e) {
