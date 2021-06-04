@@ -6,12 +6,14 @@ export default async function endpoint(
   res: NextApiResponse
 ) {
   try {
-    const response = await axios.post('http://localhost:4444/api/auth/login', {
+    const response = await axios.post('http://localhost:6969/api/auth/login', {
       ...req.body,
     });
 
     return res.status(200).json(response.data);
   } catch (e) {
-    console.log(e);
+    return res
+      .status(e.response.status)
+      .json({ success: false, message: 'something went wrong' });
   }
 }

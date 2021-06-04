@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { LoginSchema } from 'utils/resolvers';
+import { LoginSchema } from '../../utils/resolvers';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -35,14 +35,16 @@ export default function login() {
         ...data,
       });
 
+      console.log(response);
       if (response.data.success) {
         dispatch({
           type: 'login',
           payload: {
             user: response.data.user,
-            access_token: response.data.access_token,
+            access_token: response.data.token,
           },
         });
+        localStorage.setItem('token', response.data.token);
 
         await push('/auth/dashboard');
       }

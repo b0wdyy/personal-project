@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^2.5.2",
     "@tailwindcss/forms": "^0.3.2",
     "axios": "^0.21.1",
+    "jsonwebtoken": "^8.5.1",
     "next": "10.2.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -22,6 +23,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.1",
     "@types/node": "^15.6.2",
     "@types/react": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^4.26.0",

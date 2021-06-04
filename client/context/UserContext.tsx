@@ -1,4 +1,4 @@
-import { User } from 'types/User';
+import { User } from '../types/User';
 import { createContext, useContext, useReducer } from 'react';
 
 interface IUserContext {
