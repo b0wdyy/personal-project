@@ -1,15 +1,14 @@
 import React from 'react';
-import { useUser } from '../context/UserContext';
+import useUser from '@hooks/useUser';
 
 export default function Home() {
   const {
-    state: { user },
+    userQuery: { data },
   } = useUser();
 
-  console.log(user);
   return (
     <p>
-      {user.firstName} {user.lastName}
+      {data?.user.firstName} {data?.user.lastName}
     </p>
   );
 }

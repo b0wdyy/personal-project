@@ -1,14 +1,10 @@
-import useUser from '@hooks/useUser';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 
-const UserMenu = () => {
+const UserMenu = ({ user }) => {
   const [open, setOpen] = useState(false);
-  const {
-    userQuery: { data },
-  } = useUser();
   const dropdownRef = useRef(null);
   const router = useRouter();
 
@@ -36,9 +32,10 @@ const UserMenu = () => {
     <div className="container">
       <button
         onClick={toggleOpen}
+        type="button"
         className="px-4 py-2 relative bg-purple-400 hover:bg-purple-300 transition duration-200 ease-in-out rounded-md flex items-center justify-center text-white"
       >
-        <span className="mr-2">{data?.user.firstName}</span>
+        <span className="mr-2">{user?.firstName}</span>
         <FontAwesomeIcon icon={faChevronDown} />
       </button>
 

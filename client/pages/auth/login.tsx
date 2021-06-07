@@ -6,7 +6,7 @@ import {
   faCircleNotch,
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { LoginSchema } from '@utils/resolvers';
 import useUser from '@hooks/useUser';
 
@@ -15,8 +15,11 @@ interface ILoginInputs {
   password: string;
 }
 
-export default function login(): React.FC {
-  const { userMutation } = useUser();
+export default function login() {
+  const {
+    userMutation,
+    userQuery: { data: user },
+  } = useUser();
   const {
     handleSubmit,
     register,
@@ -24,17 +27,22 @@ export default function login(): React.FC {
   } = useForm<ILoginInputs>({
     resolver: yupResolver(LoginSchema),
   });
-  const { push } = useRouter();
+  const router = useRouter();
 
   const loginUser = async (data) => {
     await userMutation.mutateAsync(data);
   };
 
+  useEffect(() => {
+    if (user) router.back();
+  }, [user]);
+
   return (
     <div className="min-h-screen flex items-center justify-center relative">
       <div
+        role="button"
         className="flex items-center justify-center absolute top-8 left-8 cursor-pointer"
-        onClick={() => push('/')}
+        onClick={() => router.push('/')}
       >
         <span className="w-6 h-6 p-4 flex items-center justify-center rounded-full border-2 border-purple-700">
           <FontAwesomeIcon icon={faChevronLeft} />
