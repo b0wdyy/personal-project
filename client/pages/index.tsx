@@ -3,12 +3,12 @@ import useUser from '@hooks/useUser';
 
 export default function Home() {
   const {
-    userQuery: { data },
+    userQuery: { data: user },
   } = useUser();
 
   return (
     <p>
-      {data?.user.firstName} {data?.user.lastName}
+      {user?.firstName} {user?.lastName}
     </p>
   );
 }

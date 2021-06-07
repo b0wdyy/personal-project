@@ -31,6 +31,9 @@ router.post('/login', async (req: Request, res: Response) => {
       user.password
     );
 
+    // @ts-ignore
+    delete user.password;
+
     if (!passwordIsValid) {
       return res
         .status(401)

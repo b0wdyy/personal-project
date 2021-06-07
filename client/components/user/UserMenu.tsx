@@ -40,21 +40,11 @@ const UserMenu = ({ user }) => {
       </button>
 
       {open && (
-        <div
-          className="shadow-lg absolute bg-gray-100 rounded-md py-2 mt-1 text-black"
-          ref={dropdownRef}
-        >
+        <div className="shadow-lg absolute bg-gray-100 rounded-md py-2 mt-1 text-black" ref={dropdownRef}>
           <ul>
-            <li className="cursor-pointer mb-1 hover:bg-gray-200 px-4 py-2">
-              Profile
-            </li>
-            <li className="cursor-pointer mb-1 hover:bg-gray-200 px-4 py-2">
-              Test
-            </li>
-            <li
-              className="cursor-pointer mb-1 hover:bg-red-400 hover:text-white px-4 py-2"
-              onClick={logout}
-            >
+            <li className="cursor-pointer mb-1 hover:bg-gray-200 px-4 py-2">Profile</li>
+            <li className="cursor-pointer mb-1 hover:bg-gray-200 px-4 py-2">Test</li>
+            <li className="cursor-pointer mb-1 hover:bg-red-400 hover:text-white px-4 py-2" onClick={logout}>
               Logout
             </li>
           </ul>

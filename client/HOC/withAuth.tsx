@@ -22,7 +22,6 @@ const withAuth = (WrappedComponent) => {
               accessToken,
               process.env.NEXT_PUBLIC_TOKEN_SECRET as string
             );
-            console.log(data);
           } catch (e) {
             setVerified(false);
             localStorage.removeItem('token');
