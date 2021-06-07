@@ -24,10 +24,12 @@ const withAuth = (WrappedComponent) => {
             );
             console.log(data);
           } catch (e) {
-            console.log(e);
+            setVerified(false);
+            localStorage.removeItem('token');
+            await router.replace('/');
           }
 
-          if (!!data) {
+          if (data) {
             setVerified(true);
             setUser(data as IUser);
           } else {

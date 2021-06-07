@@ -5,10 +5,10 @@ import { Router, Response } from 'express';
 
 const router = Router();
 
-router.get('/', checkToken, async (req: IRequest, res: Response) => {
-  const { user } = req;
+router.get('/', async (_req: IRequest, res: Response) => {
+  // const { user } = req;
   try {
-    const posts = await Post.find({ user });
+    const posts = await Post.find();
     return res.status(200).json({ success: true, posts });
   } catch (e) {
     return res.json({ success: false, message: e });

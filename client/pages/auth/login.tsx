@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import { LoginSchema } from '../../utils/resolvers';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -7,18 +6,17 @@ import {
   faCircleNotch,
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
-import axios from 'axios';
-import { useState } from 'react';
-import { useUser } from '../../context/UserContext';
+import React from 'react';
+import { LoginSchema } from '@utils/resolvers';
+import useUser from '@hooks/useUser';
 
 interface ILoginInputs {
   email: string;
   password: string;
 }
 
-export default function login() {
-  const [loading, setLoading] = useState(false);
-  const { dispatch } = useUser();
+export default function login(): React.FC {
+  const { userMutation } = useUser();
   const {
     handleSubmit,
     register,
@@ -29,29 +27,7 @@ export default function login() {
   const { push } = useRouter();
 
   const loginUser = async (data) => {
-    setLoading(true);
-    try {
-      const response = await axios.post('/api/auth/login', {
-        ...data,
-      });
-
-      console.log(response);
-      if (response.data.success) {
-        dispatch({
-          type: 'login',
-          payload: {
-            user: response.data.user,
-            access_token: response.data.token,
-          },
-        });
-        localStorage.setItem('token', response.data.token);
-
-        await push('/auth/dashboard');
-      }
-    } catch (e) {
-      console.log(e);
-    }
-    setLoading(false);
+    await userMutation.mutateAsync(data);
   };
 
   return (
@@ -103,7 +79,7 @@ export default function login() {
           type="submit"
           className="transition duration-200 ease-in-out bg-purple-600 rounded-md px-4 py-3 w-full mt-4 text-white hover:bg-purple-500"
         >
-          {loading ? (
+          {userMutation.isLoading ? (
             <FontAwesomeIcon icon={faCircleNotch} className="fa-spin" />
           ) : (
             'login'

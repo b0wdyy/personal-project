@@ -1,10 +1,10 @@
 import 'tailwindcss/tailwind.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { UserProvider } from '../context/UserContext';
-import { useEffect, useState } from 'react';
+ import { ReactQueryDevtools } from 'react-query/devtools'
+import AuthHeader from '@components/header/AuthHeader';
+import PublicHeader from '@components/header/PublicHeader';
+import React, { useEffect, useState } from 'react';
 import jwt from 'jsonwebtoken';
-import AuthHeader from '../components/header/AuthHeader';
-import PublicHeader from '../components/header/PublicHeader';
 import { IUser } from '../../server/src/types/user';
 
 function MyApp({ Component, pageProps }) {
@@ -23,13 +23,12 @@ function MyApp({ Component, pageProps }) {
     if (user) {
       setUser(user as IUser);
     }
-  }, []);
+  }, [user]);
   return (
     <QueryClientProvider client={queryClient}>
-      <UserProvider>
         {user ? <AuthHeader user={user} /> : <PublicHeader />}
         <Component {...pageProps} />
-      </UserProvider>
+        <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }

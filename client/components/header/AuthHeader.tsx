@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { IUser } from '../../../server/src/types/user';
+import UserMenu from '@components/user/UserMenu';
 
 interface AuthHeaderProps {
   user: IUser;
@@ -11,7 +12,8 @@ const AuthHeader = ({ user }: AuthHeaderProps) => {
       <div className="text-purple-600 uppercase tracking-widest font-medium">
         Bowdy
       </div>
-      <ul className="flex items-center">
+      <div className="flex">
+      <ul className="flex items-center mr-12">
         <li className="mr-4">
           <Link href="/auth/dashboard">Dashboard</Link>
         </li>
@@ -19,6 +21,8 @@ const AuthHeader = ({ user }: AuthHeaderProps) => {
           <Link href="/auth/posts">Posts</Link>
         </li>
       </ul>
+      <UserMenu user={user} />
+      </div>
     </div>
   );
 };

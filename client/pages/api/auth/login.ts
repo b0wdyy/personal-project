@@ -13,7 +13,7 @@ export default async function endpoint(
     return res.status(200).json(response.data);
   } catch (e) {
     return res
-      .status(e.response.status)
+      .status(400)
       .json({ success: false, message: 'something went wrong' });
   }
 }
