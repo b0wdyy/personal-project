@@ -1,17 +1,26 @@
+import path from 'path';
 import Post from '../entity/Post';
 import { IRequest } from 'src/types/request';
 import { checkToken } from './../auth/auth';
 import { Router, Response } from 'express';
-import cloudinary from 'cloudinary';
 import multer from 'multer';
+import PostService from '../services/PostService';
+import MediaService from '../services/MediaService';
 
-const router = Router();
-const upload = multer();
-cloudinary.v2.config({
-  cloud_name: 'dqghtd0cg',
-  api_key: '736496473388194',
-  api_secret: 'EZYbPJ8DSukf6rsnflw8V6cNpN0',
+const postService = new PostService();
+const mediaService = new MediaService();
+
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    cb(null, path.join(__dirname, '..', 'assets'));
+  },
+  filename: (_req, file, cb) => {
+    cb(null, `${Date.now()}--${file.originalname}`);
+  },
 });
+
+const upload = multer({ storage }).single('image');
+const router = Router();
 
 router.get('/', checkToken, async (req: IRequest, res: Response) => {
   const { user } = req;
@@ -23,27 +32,24 @@ router.get('/', checkToken, async (req: IRequest, res: Response) => {
   }
 });
 
-router.post(
-  '/',
-  checkToken,
-  upload.single('image'),
-  async (req: IRequest, res: Response) => {
-    const { user } = req;
-    try {
-    const response = await cloudinary.v2.uploader.upload(
-      req.file.originalname,
-      { unique_filename: true }
-    );
-    console.log(response);
-      const post = await Post.insert({
-        ...req.body,
-        user,
-      });
+router.post('/', checkToken, upload, async (req: IRequest, res: Response) => {
+  const { user, file } = req;
 
-      return res.status(201).json({ success: true, post });
-    } catch (e) {
-      return res.status(400).json({ success: false, message: e });
-    }
+  try {
+    const createdPost = await postService.create(req.body, user);
+    const post = await postService.findById(createdPost.raw.insertId);
+    await mediaService.create(file, post);
+
+    return res.status(201).json({ success: true, message: 'post created' });
+  } catch (e) {
+    return res.status(400).json({ success: false, message: e });
   }
-);
+});
+
+router.delete('/:id', checkToken, (req, res) => {
+  console.log(req.params.id);
+
+  return res.status(203).json({ success: true, message: 'delete route' });
+});
+
 export default router;

@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { User } from './../entity/User';
+import { User } from '../entity/User';
 import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';

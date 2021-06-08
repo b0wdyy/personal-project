@@ -5,9 +5,11 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import Media from './Media';
 
 @Entity('posts')
 export default class Post extends BaseEntity {
@@ -22,6 +24,9 @@ export default class Post extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
+
+  @OneToMany(() => Media, (media) => media.post)
+  media: Media[];
 
   @CreateDateColumn()
   created_at: Date;
