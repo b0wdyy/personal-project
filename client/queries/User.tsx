@@ -9,3 +9,4 @@ export const loginUserWithToken = async (token) => {
 
   return user;
 }
+

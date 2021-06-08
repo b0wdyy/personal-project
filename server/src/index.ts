@@ -1,8 +1,9 @@
-import path from 'path';
-import { createConnection } from 'typeorm';
-import 'reflect-metadata';
-import express from 'express';
 import 'dotenv/config';
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+import express from 'express';
+import path from 'path';
+import cors from 'cors';
 import AuthRouter from './routes/auth.routes';
 import PostRouter from './routes/post.routes';
 
@@ -16,6 +17,7 @@ import PostRouter from './routes/post.routes';
   const app = express();
 
   app.use(express.json());
+  app.use(cors())
   app.use(express.urlencoded({ extended: true }));
   app.use(express.static(path.join(__dirname, 'assets')));
 

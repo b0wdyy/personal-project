@@ -1,3 +1,4 @@
+import { IUser } from './../types/user.d';
 import path from 'path';
 import Post from '../entity/Post';
 import { IRequest } from 'src/types/request';
@@ -25,7 +26,8 @@ const router = Router();
 router.get('/', checkToken, async (req: IRequest, res: Response) => {
   const { user } = req;
   try {
-    const posts = await Post.find({ user });
+    // @ts-ignore
+    const posts = await Post.find({ user, relations: ['media'] });
     return res.status(200).json({ success: true, posts });
   } catch (e) {
     return res.json({ success: false, message: e });

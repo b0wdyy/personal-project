@@ -1,5 +1,6 @@
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import useUser from '@hooks/useUser';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -7,6 +8,7 @@ const UserMenu = ({ user }) => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
   const router = useRouter();
+  const { userMutationLogout } = useUser();
 
   const toggleOpen = () => setOpen(!open);
 
@@ -17,16 +19,13 @@ const UserMenu = ({ user }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    userMutationLogout.mutate();
     router.push('/auth/login');
   };
 
   useEffect(() => {
     document.addEventListener('click', onOutsideClick);
-    return () => {
-      document.removeEventListener('click', onOutsideClick);
-    };
-  }, []);
+  }, [user]);
 
   return (
     <div className="container">
